@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity(), MainView {
         vb?.btnCounter1?.setOnClickListener {presenter.counterClickOne()}
         vb?.btnCounter2?.setOnClickListener {presenter.counterClickTwo()}
         vb?.btnCounter3?.setOnClickListener {presenter.counterClickThree()}
-
     }
 
     override fun setFirstButtonText(text: String) {
