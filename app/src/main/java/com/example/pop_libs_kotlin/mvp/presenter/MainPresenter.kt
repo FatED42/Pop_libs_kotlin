@@ -1,6 +1,6 @@
 package com.example.pop_libs_kotlin.mvp.presenter
 
-import com.example.pop_libs_kotlin.mvp.navigation.IScreens
+import com.example.pop_libs_kotlin.mvp.model.navigation.IScreens
 import com.example.pop_libs_kotlin.mvp.view.MainView
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
