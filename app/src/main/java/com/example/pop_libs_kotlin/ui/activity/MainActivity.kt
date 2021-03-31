@@ -1,11 +1,8 @@
 package com.example.pop_libs_kotlin.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pop_libs_kotlin.R
 import com.example.pop_libs_kotlin.databinding.ActivityMainBinding
-import com.example.pop_libs_kotlin.mvp.model.GitHubUsersRepo
 import com.example.pop_libs_kotlin.mvp.presenter.MainPresenter
 import com.example.pop_libs_kotlin.mvp.view.MainView
 import com.example.pop_libs_kotlin.ui.App
