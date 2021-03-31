@@ -1,6 +1,7 @@
 package com.example.pop_libs_kotlin.ui
 
 import android.app.Application
+import com.example.pop_libs_kotlin.mvp.model.entity.room.db.Database
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 
@@ -20,6 +21,7 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        Database.create(this)
     }
 
 }
