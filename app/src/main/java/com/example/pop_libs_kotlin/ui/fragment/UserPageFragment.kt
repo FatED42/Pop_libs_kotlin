@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pop_libs_kotlin.databinding.FragmentUserPageBinding
 import com.example.pop_libs_kotlin.mvp.model.api.ApiHolder
+import com.example.pop_libs_kotlin.mvp.model.cache.GitHubUserReposCache
 import com.example.pop_libs_kotlin.mvp.model.entity.GitHubUser
+import com.example.pop_libs_kotlin.mvp.model.entity.room.db.Database
 import com.example.pop_libs_kotlin.mvp.model.image.IImageLoader
 import com.example.pop_libs_kotlin.mvp.model.repo.RetrofitGitHubUserRepos
 import com.example.pop_libs_kotlin.mvp.presenter.UserPagePresenter
@@ -18,6 +20,7 @@ import com.example.pop_libs_kotlin.ui.App
 import com.example.pop_libs_kotlin.ui.BackClickListener
 import com.example.pop_libs_kotlin.ui.adapter.UserReposRVAdapter
 import com.example.pop_libs_kotlin.ui.image.GlideImageLoader
+import com.example.pop_libs_kotlin.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -40,7 +43,7 @@ class UserPageFragment(val imageLoader: IImageLoader<ImageView>): MvpAppCompatFr
             user,
             App.instance.router,
             AndroidSchedulers.mainThread(),
-            RetrofitGitHubUserRepos(ApiHolder.api))
+            RetrofitGitHubUserRepos(ApiHolder.api, AndroidNetworkStatus(App.instance), GitHubUserReposCache(Database.getInstance())))
     }
 
     private var vb: FragmentUserPageBinding? = null
@@ -82,7 +85,7 @@ class UserPageFragment(val imageLoader: IImageLoader<ImageView>): MvpAppCompatFr
     override fun showRepoInfo(scoreFork: Int, scoreViews: Int, language: String) {
         Toast.makeText(
             context,
-            "Число форков $scoreFork, \nПросмотры $scoreViews, \nИспользуемый язык $language",
+            "Число форков: $scoreFork, \nПросмотры: $scoreViews, \nИспользуемый язык: $language",
             Toast.LENGTH_SHORT
         ).show()
     }
