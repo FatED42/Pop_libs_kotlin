@@ -25,12 +25,12 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserPageFragment(val imageLoader: IImageLoader<ImageView>): MvpAppCompatFragment(), UserPageView, BackClickListener {
+class UserPageFragment(): MvpAppCompatFragment(), UserPageView, BackClickListener {
 
     companion object {
         private const val USERNAME_ARG = "user"
 
-        fun newInstance(user: GitHubUser) = UserPageFragment(GlideImageLoader()).apply {
+        fun newInstance(user: GitHubUser) = UserPageFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(USERNAME_ARG, user)
             }
@@ -39,11 +39,9 @@ class UserPageFragment(val imageLoader: IImageLoader<ImageView>): MvpAppCompatFr
 
     private val presenter: UserPagePresenter by moxyPresenter {
         val user = arguments?.getParcelable<GitHubUser>(USERNAME_ARG) as GitHubUser
-        UserPagePresenter(
-            user,
-            App.instance.router,
-            AndroidSchedulers.mainThread(),
-            RetrofitGitHubUserRepos(ApiHolder.api, AndroidNetworkStatus(App.instance), GitHubUserReposCache(Database.getInstance())))
+        UserPagePresenter(user).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     private var vb: FragmentUserPageBinding? = null
@@ -79,7 +77,7 @@ class UserPageFragment(val imageLoader: IImageLoader<ImageView>): MvpAppCompatFr
     }
 
     override fun setImage(url: String) {
-        imageLoader.load(url, vb!!.ivAvatar)
+        //imageLoader.load(url, vb!!.ivAvatar)
     }
 
     override fun showRepoInfo(scoreFork: Int, scoreViews: Int, language: String) {
