@@ -10,13 +10,17 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
+import javax.inject.Named
 
-class UserPagePresenter(
-    private val user: GitHubUser,
-    private val router: Router,
-    private val uiScheduler: Scheduler,
-    private val repos: IGitHubUserRepos
-    ): MvpPresenter<UserPageView>() {
+class UserPagePresenter(private val user: GitHubUser): MvpPresenter<UserPageView>() {
+
+    @Inject lateinit var router: Router
+    @Inject lateinit var repos: IGitHubUserRepos
+    //@Inject lateinit var imageLoader: IImageLoader<ImageView>
+
+    @field:Named("ui") @Inject lateinit var uiScheduler: Scheduler
+
 
     class UserReposListPresenter : IUserReposListPresenter {
         val userRepos = mutableListOf<GitHubUserRepos>()

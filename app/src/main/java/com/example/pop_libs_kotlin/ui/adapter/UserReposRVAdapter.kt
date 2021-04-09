@@ -30,7 +30,7 @@ class UserReposRVAdapter(val presenter: IUserReposListPresenter) :
 
         override var pos = -1
 
-        override fun setReposName(repoName: String) = with(vb) {
+        override fun setReposName(repoName: String) {
             vb.txtRepoName.text = repoName
         }
     }

@@ -8,15 +8,16 @@ import com.example.pop_libs_kotlin.mvp.view.UsersView
 import com.example.pop_libs_kotlin.mvp.view.list.IUserItemView
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
+import javax.inject.Named
 
-class UsersPresenter(
-    private val usersRepo: IGitHubUsersRepo,
-    private val router: Router,
-    private val screens: IScreens,
-    private val uiScheduler: Scheduler
-        ) : MvpPresenter<UsersView>() {
+class UsersPresenter : MvpPresenter<UsersView>() {
+
+    @Inject lateinit var usersRepo: IGitHubUsersRepo
+    @Inject lateinit var screens: IScreens
+    @Inject lateinit var router: Router
+    @field:Named("ui") @Inject lateinit var uiScheduler: Scheduler
 
     class UsersListPresenter: IUsersListPresenter {
         val users = mutableListOf<GitHubUser>()

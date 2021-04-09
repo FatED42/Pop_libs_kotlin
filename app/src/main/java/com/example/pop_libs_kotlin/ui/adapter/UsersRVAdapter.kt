@@ -8,8 +8,11 @@ import com.example.pop_libs_kotlin.databinding.ItemUserBinding
 import com.example.pop_libs_kotlin.mvp.model.image.IImageLoader
 import com.example.pop_libs_kotlin.mvp.presenter.list.IUsersListPresenter
 import com.example.pop_libs_kotlin.mvp.view.list.IUserItemView
+import javax.inject.Inject
 
-class UsersRVAdapter(private val presenter: IUsersListPresenter, val imageLoader: IImageLoader<ImageView>): RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+class UsersRVAdapter(private val presenter: IUsersListPresenter): RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+
+    @Inject lateinit var imageLoader: IImageLoader<ImageView>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(

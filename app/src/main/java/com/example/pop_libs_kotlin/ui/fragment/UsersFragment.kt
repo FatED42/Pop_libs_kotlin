@@ -5,33 +5,32 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pop_libs_kotlin.databinding.FragmentUsersBinding
-import com.example.pop_libs_kotlin.mvp.model.api.ApiHolder
-import com.example.pop_libs_kotlin.mvp.model.repo.RetrofitGitHubUsersRepo
 import com.example.pop_libs_kotlin.mvp.presenter.UsersPresenter
 import com.example.pop_libs_kotlin.mvp.view.UsersView
 import com.example.pop_libs_kotlin.ui.App
 import com.example.pop_libs_kotlin.ui.BackClickListener
 import com.example.pop_libs_kotlin.ui.adapter.UsersRVAdapter
 import com.example.pop_libs_kotlin.ui.image.GlideImageLoader
-import com.example.pop_libs_kotlin.ui.navigation.AndroidScreens
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class UsersFragment: MvpAppCompatFragment(), UsersView, BackClickListener {
 
+    private var vb: FragmentUsersBinding? = null
+    private val adapter by lazy {
+        UsersRVAdapter(presenter.usersListPresenter).apply {
+            App.instance.appComponent.inject(this)
+        }
+    }
+
     companion object {
         fun newInstance() = UsersFragment()
     }
-
     private val presenter by moxyPresenter {
-        UsersPresenter(
-            RetrofitGitHubUsersRepo(ApiHolder.api),
-            App.instance.router, AndroidScreens(),
-            AndroidSchedulers.mainThread())
+        UsersPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
-    private var adapter: UsersRVAdapter? = null
-    private var vb: FragmentUsersBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +47,11 @@ class UsersFragment: MvpAppCompatFragment(), UsersView, BackClickListener {
 
     override fun init() {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
         vb?.rvUsers?.adapter = adapter
     }
 
     override fun updateList() {
-        adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun backPressed() = presenter.backClicked()
