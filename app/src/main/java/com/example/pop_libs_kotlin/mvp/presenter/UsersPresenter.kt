@@ -34,7 +34,7 @@ class UsersPresenter : MvpPresenter<UsersView>() {
 
     }
 
-    private val usersListPresenter = UsersListPresenter()
+    val usersListPresenter = UsersListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

@@ -10,22 +10,27 @@ import com.example.pop_libs_kotlin.mvp.view.UsersView
 import com.example.pop_libs_kotlin.ui.App
 import com.example.pop_libs_kotlin.ui.BackClickListener
 import com.example.pop_libs_kotlin.ui.adapter.UsersRVAdapter
+import com.example.pop_libs_kotlin.ui.image.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class UsersFragment: MvpAppCompatFragment(), UsersView, BackClickListener {
 
+    private var vb: FragmentUsersBinding? = null
+    private val adapter by lazy {
+        UsersRVAdapter(presenter.usersListPresenter).apply {
+            App.instance.appComponent.inject(this)
+        }
+    }
+
     companion object {
         fun newInstance() = UsersFragment()
     }
-
     private val presenter by moxyPresenter {
         UsersPresenter().apply {
             App.instance.appComponent.inject(this)
         }
     }
-    private var adapter: UsersRVAdapter? = null
-    private var vb: FragmentUsersBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +51,7 @@ class UsersFragment: MvpAppCompatFragment(), UsersView, BackClickListener {
     }
 
     override fun updateList() {
-        adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun backPressed() = presenter.backClicked()
